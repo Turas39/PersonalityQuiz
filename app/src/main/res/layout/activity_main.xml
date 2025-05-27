@@ -20,8 +20,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_margin="20dp"
+            android:layout_gravity="center"
             >
 
             <Button
@@ -29,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Data"
-                android:layout_marginEnd="20dp"
+
                 />
 
             <Button
@@ -49,19 +50,22 @@
 
             <Button
                 android:id="@+id/button_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Start"/>
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:text="Start"
+                />
 
             <Chronometer
                 android:id="@+id/chronometer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"/>
+                android:layout_margin="10dp"
+                android:textSize="25dp"/>
 
         </LinearLayout>
 
         <TextView
+            android:id="@+id/text1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Zostało ci 10 minut"
@@ -83,7 +87,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textSize="18dp"
-                android:text="Jak najchętniej spędzasz wolny czas?" />
+                android:text="Jak najchętniej spędzasz wolny czas?"
+                android:textStyle="bold"/>
 
             <RadioGroup
                 android:layout_width="wrap_content"
@@ -131,7 +136,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textSize="18dp"
-                android:text="Co najbardziej Cię motywuje do działania?"/>
+                android:text="Co najbardziej Cię motywuje do działania?"
+                android:textStyle="bold"/>
 
             <CheckBox
                 android:id="@+id/checkbox_1"
@@ -183,7 +189,8 @@
                 android:layout_height="wrap_content"
                 android:text="Na ile oceniasz siebie jako osobę zorganizowaną?"
                 android:textSize="18dp"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:textStyle="bold"/>
 
             <SeekBar
                 android:id="@+id/seekbar"
@@ -207,7 +214,8 @@
             android:layout_height="wrap_content"
             android:text="Jak zazwyczaj podejmujesz decyzje?"
             android:textSize="18dp"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:textStyle="bold"/>
 
         <Spinner
             android:id="@+id/spinner"
