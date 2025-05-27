@@ -53,6 +53,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:text="Start"
+
                 />
 
             <Chronometer
@@ -65,14 +66,14 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/text1"
+            android:id="@+id/text_timer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Zostało ci 10 minut"
+            android:text="Zostało ci 600 sekund"
             android:textSize="30dp"
             android:gravity="center"
             android:layout_marginBottom="10dp"
-            android:background="#6B3FB8"
+            android:background="#723BD9"
             android:textColor="@color/white"/>
 
         <LinearLayout
@@ -215,10 +216,11 @@
             android:text="Jak zazwyczaj podejmujesz decyzje?"
             android:textSize="18dp"
             android:gravity="center"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"/>
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/spinner_pozdro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
