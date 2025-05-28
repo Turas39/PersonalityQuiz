@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val datePicker = findViewById<DatePicker>(R.id.date)
+
         val timePicker = findViewById<TimePicker>(R.id.time)
 
         timePicker.setIs24HourView(true)
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                SummaryActivity()
+                goToSummaryActivity()
             }
         }
         countDownTimer.start()
@@ -107,43 +107,107 @@ class MainActivity : AppCompatActivity() {
 
         val button_zakoncz = findViewById<Button>(R.id.button_zakoncz)
         button_zakoncz.setOnClickListener {
-            SummaryActivity()
+            goToSummaryActivity()
         }
 
         button_zakoncz.setBackgroundColor(Color.parseColor("#FF0000"))
 
-        fun SummaryActivity() {
 
-            val selectedRadioId = findViewById<RadioGroup>(R.id.radiogroup).checkedRadioButtonId
-            val selectedRadioText = findViewById<RadioButton>(selectedRadioId)?.text?.toString() ?: "Brak wyboru"
+    }
 
-            val seekbarValue = findViewById<SeekBar>(R.id.seekbar).progress
-            val spinnerValue = findViewById<Spinner>(R.id.spinner_pozdro).selectedItem.toString()
+    private fun goToSummaryActivity() {
 
-            val selectedCheckboxes = mutableListOf<String>()
-            if (findViewById<CheckBox>(R.id.checkbox_1).isChecked) selectedCheckboxes.add("Cel i sens")
-            if (findViewById<CheckBox>(R.id.checkbox_2).isChecked) selectedCheckboxes.add("Uznanie")
-            if (findViewById<CheckBox>(R.id.checkbox_3).isChecked) selectedCheckboxes.add("Rozwój")
-            if (findViewById<CheckBox>(R.id.checkbox_4).isChecked) selectedCheckboxes.add("Stabilność")
-            if (findViewById<CheckBox>(R.id.checkbox_5).isChecked) selectedCheckboxes.add("Rywalizacja")
-            if (findViewById<CheckBox>(R.id.checkbox_6).isChecked) selectedCheckboxes.add("Swoboda")
+        val radiobutton1 = findViewById<RadioButton>(R.id.radiobutton_1).isChecked
+        val radiobutton2 = findViewById<RadioButton>(R.id.radiobutton_2).isChecked
+        val radiobutton3 = findViewById<RadioButton>(R.id.radiobutton_3).isChecked
+        val radiobutton4 = findViewById<RadioButton>(R.id.radiobutton_4).isChecked
 
-            val checkboxSummary = selectedCheckboxes.joinToString(", ")
+        val checkbox1 = findViewById<CheckBox>(R.id.checkbox_1).isChecked
+        val checkbox2 = findViewById<CheckBox>(R.id.checkbox_2).isChecked
+        val checkbox3 = findViewById<CheckBox>(R.id.checkbox_3).isChecked
+        val checkbox4 = findViewById<CheckBox>(R.id.checkbox_4).isChecked
+        val checkbox5 = findViewById<CheckBox>(R.id.checkbox_5).isChecked
+        val checkbox6 = findViewById<CheckBox>(R.id.checkbox_6).isChecked
 
-            val selectedDate = "${datePicker.dayOfMonth}/${datePicker.month + 1}/${datePicker.year}"
-            val selectedTime = "${timePicker.hour}:${timePicker.minute}"
+        val seekbar = findViewById<SeekBar>(R.id.seekbar).progress
+        val spinner = findViewById<Spinner>(R.id.spinner_pozdro).selectedItem.toString()
 
-            val intent = Intent(this, SummaryActivity::class.java)
-            intent.putExtra("radio", selectedRadioText)
-            intent.putExtra("seekbar", seekbarValue)
-            intent.putExtra("spinner", spinnerValue)
-            intent.putExtra("checkboxes", checkboxSummary)
-            intent.putExtra("date", selectedDate)
-            intent.putExtra("time", selectedTime)
+        var ekstrawertycznyOdkrywca = 0
+        var introwertycznyRefleksyjny = 0
+        var ambitnyStrateg = 0
+        var empatycznyIdealista = 0
 
-            startActivity(intent)
-
+        if (radiobutton1) {
+            ekstrawertycznyOdkrywca += 1
+            empatycznyIdealista += 1
+        } else if (radiobutton2) {
+            introwertycznyRefleksyjny += 1
+            empatycznyIdealista += 1
+        } else if (radiobutton3) {
+            ekstrawertycznyOdkrywca += 2
+        } else if (radiobutton4) {
+            ambitnyStrateg += 2
         }
+
+        if (checkbox1) {
+            empatycznyIdealista += 1
+            introwertycznyRefleksyjny += 1
+        }
+        if (checkbox2) {
+            ekstrawertycznyOdkrywca += 1
+            ambitnyStrateg += 1
+        }
+        if (checkbox3) {
+            ekstrawertycznyOdkrywca += 1
+            ambitnyStrateg += 1
+        }
+        if (checkbox4) {
+            introwertycznyRefleksyjny += 1
+            ambitnyStrateg += 1
+        }
+        if (checkbox5) {
+            ekstrawertycznyOdkrywca += 1
+            ambitnyStrateg += 2
+        }
+        if (checkbox6) {
+            empatycznyIdealista += 2
+        }
+
+        when (seekbar) {
+            in 1..4 -> ekstrawertycznyOdkrywca += 2
+            in 5..6 -> empatycznyIdealista += 2
+            in 7..8 -> introwertycznyRefleksyjny += 2
+            in 9..10 -> ambitnyStrateg += 2
+        }
+
+        when (spinner) {
+            "Kieruję się intuicją – czuję, że tak będzie dobrze" -> {
+                ekstrawertycznyOdkrywca += 1
+                empatycznyIdealista += 1
+            }
+            "Analizuję fakty, dane, plusy i minusy" -> {
+                introwertycznyRefleksyjny += 1
+                ambitnyStrateg += 1
+            }
+            "Konsultuję się z innymi, zanim zdecyduję" -> {
+                empatycznyIdealista += 1
+            }
+            "Zazwyczaj odkładam decyzje, dopóki nie muszę ich podjąć" -> {
+                introwertycznyRefleksyjny += 1
+            }
+            "Działam spontanicznie, bez dłuższego zastanowienia" -> {
+                ekstrawertycznyOdkrywca += 1
+            }
+        }
+
+        val intent = Intent(this, SummaryActivity::class.java)
+        intent.putExtra("odkrywca", ekstrawertycznyOdkrywca)
+        intent.putExtra("refleksyjny", introwertycznyRefleksyjny)
+        intent.putExtra("strateg", ambitnyStrateg)
+        intent.putExtra("idealista", empatycznyIdealista)
+
+
+        startActivity(intent)
 
     }
 }

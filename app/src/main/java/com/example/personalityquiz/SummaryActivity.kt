@@ -1,6 +1,7 @@
 package com.example.personalityquiz
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -17,5 +18,17 @@ class SummaryActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        val radio = intent.getStringExtra("radio")
+        val seekbar = intent.getIntExtra("seekbar", 0)
+        val spinner = intent.getStringExtra("spinner")
+        val checkboxes = intent.getStringExtra("checkboxes")
+        val date = intent.getStringExtra("date")
+        val time = intent.getStringExtra("time")
+
+        val textView = findViewById<TextView>(R.id.text_summary)
+
+
+
     }
 }
