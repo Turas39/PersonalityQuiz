@@ -2,6 +2,7 @@ package com.example.personalityquiz
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.graphics.Color
 import android.icu.util.Calendar
 import android.os.Bundle
@@ -15,6 +16,11 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.TimePicker
 import android.widget.ArrayAdapter
+import android.widget.CheckBox
+import android.widget.DatePicker
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.SeekBar
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -37,34 +43,10 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val button_date = findViewById<Button>(R.id.button_date)
-        val button_time = findViewById<Button>(R.id.button_time)
+        val datePicker = findViewById<DatePicker>(R.id.date)
+        val timePicker = findViewById<TimePicker>(R.id.time)
 
-        button_date.setBackgroundColor(Color.parseColor("#0000CD"))
-        button_time.setBackgroundColor(Color.parseColor("#0000CD"))
-
-        button_date.setOnClickListener {
-            val calendar = Calendar.getInstance()
-            val year = calendar.get(Calendar.YEAR)
-            val month = calendar.get(Calendar.MONTH)
-            val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-            val datePickerDialog = DatePickerDialog(this, {_, selectedYear, selectedMonth, selectedDay ->
-                button_date.setText("$selectedYear/${selectedMonth+1}/$selectedDay")
-            }, year, month, day)
-            datePickerDialog.show()
-        }
-
-        button_time.setOnClickListener {
-            var calendar = Calendar.getInstance()
-            val hour = calendar.get(Calendar.HOUR_OF_DAY)
-            val minute = calendar.get(Calendar.MINUTE)
-
-            val timePickerDialog = TimePickerDialog(this, {_ : TimePicker, selectedHour: Int, selectedMinute: Int ->
-                button_time.setText("$selectedHour:$selectedMinute")
-            }, hour, minute, true)
-            timePickerDialog.show()
-        }
+        timePicker.setIs24HourView(true)
 
         chronometer = findViewById(R.id.chronometer)
         button_start = findViewById(R.id.button_start)
@@ -129,6 +111,39 @@ class MainActivity : AppCompatActivity() {
         }
 
         button_zakoncz.setBackgroundColor(Color.parseColor("#FF0000"))
+
+        fun SummaryActivity() {
+
+            val selectedRadioId = findViewById<RadioGroup>(R.id.radiogroup).checkedRadioButtonId
+            val selectedRadioText = findViewById<RadioButton>(selectedRadioId)?.text?.toString() ?: "Brak wyboru"
+
+            val seekbarValue = findViewById<SeekBar>(R.id.seekbar).progress
+            val spinnerValue = findViewById<Spinner>(R.id.spinner_pozdro).selectedItem.toString()
+
+            val selectedCheckboxes = mutableListOf<String>()
+            if (findViewById<CheckBox>(R.id.checkbox_1).isChecked) selectedCheckboxes.add("Cel i sens")
+            if (findViewById<CheckBox>(R.id.checkbox_2).isChecked) selectedCheckboxes.add("Uznanie")
+            if (findViewById<CheckBox>(R.id.checkbox_3).isChecked) selectedCheckboxes.add("Rozwój")
+            if (findViewById<CheckBox>(R.id.checkbox_4).isChecked) selectedCheckboxes.add("Stabilność")
+            if (findViewById<CheckBox>(R.id.checkbox_5).isChecked) selectedCheckboxes.add("Rywalizacja")
+            if (findViewById<CheckBox>(R.id.checkbox_6).isChecked) selectedCheckboxes.add("Swoboda")
+
+            val checkboxSummary = selectedCheckboxes.joinToString(", ")
+
+            val selectedDate = "${datePicker.dayOfMonth}/${datePicker.month + 1}/${datePicker.year}"
+            val selectedTime = "${timePicker.hour}:${timePicker.minute}"
+
+            val intent = Intent(this, SummaryActivity::class.java)
+            intent.putExtra("radio", selectedRadioText)
+            intent.putExtra("seekbar", seekbarValue)
+            intent.putExtra("spinner", spinnerValue)
+            intent.putExtra("checkboxes", checkboxSummary)
+            intent.putExtra("date", selectedDate)
+            intent.putExtra("time", selectedTime)
+
+            startActivity(intent)
+
+        }
 
     }
 }
